@@ -23,7 +23,10 @@ No framework, no build step, no dependencies. Pure HTML + CSS + vanilla JS.
 DoneStead-Website-v1/
 ├── index.html              ← Homepage (main page)
 ├── css/
-│   └── donestead.css       ← All styles (shared across all pages)
+│   ├── donestead.css       ← All styles (shared across all pages)
+│   └── mobile.css          ← Mobile/tablet layer (<=860px only; desktop untouched)
+├── js/
+│   └── nav-mobile.js       ← Mobile menu (subpages; index.html carries the same code inline)
 ├── assets/
 │   └── logo.png            ← DoneStead logo (transparent background, 480×240px)
 ├── pages/

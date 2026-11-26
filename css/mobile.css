@@ -1,0 +1,184 @@
+/* ==========================================================================
+   DoneStead — mobile & tablet layer  (css/mobile.css)
+   --------------------------------------------------------------------------
+   Additive only. Everything that changes layout lives inside a max-width
+   media query, so desktop (>= 861px) renders exactly as before.
+
+   Font scaling: every font-size below 1rem in the site is written as
+     calc(Xrem * var(--fs,1))
+   --fs defaults to 1 (no change). On phones it is raised to 1.25 so body
+   copy reaches 16px and micro-labels reach ~12px, with no per-element hacks.
+   ========================================================================== */
+
+/* ---- elements that exist in the markup on every viewport -------------- */
+.nav-toggle{display:none;background:transparent;border:0;color:#fff;cursor:pointer;border-radius:8px;-webkit-tap-highlight-color:transparent}
+.nav-toggle:hover{background:rgba(255,255,255,.08)}
+.nav-toggle:focus-visible{outline:2px solid #00C2FF;outline-offset:2px}
+.nav-links-mobile-cta{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+/* ==========================================================================
+   <= 860px : tablets + phones  — header / navigation
+   ========================================================================== */
+@media (max-width:860px){
+  html{scroll-padding-top:78px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+  /* cheaper than a live blur on mid-range phones; colour is visually identical */
+  nav{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(13,59,102,.99)}
+  .nav-inner{padding:0 16px;gap:12px}
+  .nav-logo{flex:0 1 auto;min-width:0}
+  .nav-logo img{max-width:100%}
+  .nav-ctas{display:none}
+
+  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;flex:0 0 auto;margin-right:-6px}
+
+  .nav-links{
+    position:fixed;top:70px;left:0;right:0;
+    display:flex;flex-direction:column;align-items:stretch;gap:0;
+    background:var(--navydark,#081E35);
+    max-height:0;overflow:hidden;opacity:0;visibility:hidden;
+    border-bottom:1px solid rgba(0,194,255,.15);
+    box-shadow:0 18px 30px rgba(0,0,0,.28);
+    transition:max-height .25s ease,opacity .2s ease,visibility 0s linear .25s;
+  }
+  .nav-links.open{
+    max-height:calc(100vh - 70px);max-height:calc(100dvh - 70px);
+    overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+    opacity:1;visibility:visible;transition-delay:0s;
+  }
+  .nav-links a{
+    display:flex;align-items:center;width:100%;min-height:52px;
+    padding:0 20px;border-bottom:1px solid rgba(255,255,255,.06);
+    font-size:1rem;white-space:normal;
+  }
+  .nav-links a:last-child{border-bottom:0}
+  .nav-links-mobile-cta{display:flex;font-weight:700;color:#fff!important}
+  .nav-links-mobile-cta.accent{color:var(--cyan,#009FCE)!important}
+}
+
+/* ==========================================================================
+   <= 700px : phones
+   ========================================================================== */
+@media (max-width:700px){
+  :root{--fs:1.25;--fl:.75rem;--fb:1rem}
+
+  html,body{max-width:100%}
+  img,video,canvas,iframe,embed,object{max-width:100%}
+  img,video{height:auto}
+  .nav-logo img,.footer-logo img{height:auto}
+  .nav-logo img{max-height:46px;width:auto}
+  .footer-logo img{max-height:42px;width:auto}
+  iframe{width:100%;border:0}
+  h1,h2,h3,h4,p,li,a,td,th{overflow-wrap:break-word}
+
+  /* ---- side margins 20px, tighter vertical rhythm ---- */
+  .hero-content,.hero-inner,.trust-bar,.section,.pq-section,.awaab,.portals,.mr-band,
+  .disclaimer,.cta-band,.contact,footer,.page-hero,.page-section,.page-body,.pricing-page{
+    padding-left:20px;padding-right:20px;
+  }
+  section[style*="2rem"]{padding-left:20px!important;padding-right:20px!important}
+  .section,.contact,.portals,.awaab,.pq-section,.page-section,.pricing-page{padding-top:56px;padding-bottom:56px}
+  .page-body{padding-top:44px;padding-bottom:56px}
+  .cta-band{padding-top:52px;padding-bottom:52px}
+  .mr-band{padding-top:44px;padding-bottom:44px}
+  .page-hero{padding-top:84px;padding-bottom:44px}
+  section[style*="padding:64px"],section[style*="padding:72px"],section[style*="padding:52px"]{padding-top:48px!important;padding-bottom:48px!important}
+  footer{padding-top:44px;padding-bottom:24px}
+
+  /* ---- headings never overflow, never break ugly ---- */
+  .hero-title{font-size:clamp(2rem,10vw,2.6rem)}
+  .hero-sub{font-size:1.02rem}
+  /* hero: ~190px of dead space above the badge on phones -> ~40px (nav already clears 70px) */
+  .hero-content{padding-top:1rem;padding-bottom:1.25rem}
+  .hero-inner{padding-top:1.5rem;padding-bottom:1rem}
+  .hero-actions{margin-bottom:2.25rem}
+  .section-title,.pq-title,.cta-title{overflow-wrap:break-word}
+  .page-hero h1{font-size:clamp(1.65rem,7.4vw,2.1rem)}
+
+  /* ---- columns -> one column ---- */
+  .m-stack{grid-template-columns:1fr!important}
+  [style*="display:grid"]>*,.awaab-inner>*,.pq-inner>*,.contact-grid>*,.why-grid>*,
+  .svc-grid>*,.serve-grid>*,.portal-grid>*,.price-grid>*,.diff-grid>*,.footer-top>*,.disc-grid>*{min-width:0}
+  .hero-actions{flex-direction:column;align-items:stretch;gap:12px}
+  .hero-actions>*{width:100%;justify-content:center;text-align:center}
+  .contact-grid,.pq-inner,.awaab-inner,.why-grid{gap:2rem}
+
+  /* ---- buttons: 44px+ tap area, label on one line ---- */
+  .btn-primary,.btn-ghost,.btn-ghost-sm,.btn-hero-main,.btn-hero-awaab,.btn-hero-survey,
+  .btn-cta-dark,.btn-mr,.btn-nav-awaab,.btn-nav-survey,button[type="submit"]{
+    min-height:48px;display:inline-flex;align-items:center;justify-content:center;
+    max-width:100%;white-space:nowrap;
+  }
+  .cta-band .btn-cta-dark{width:100%;padding-left:16px;padding-right:16px}
+  .cta-band .cta-sub{max-width:34em;margin-left:auto;margin-right:auto}
+  a[style*="display:block"][style*="text-align:center"]{min-height:48px;display:flex!important;align-items:center;justify-content:center}
+
+  /* ---- footer ---- */
+  .footer-top{gap:2rem;margin-bottom:2rem}
+  .footer-col-list{gap:0}
+  .footer-col-list a{display:flex;align-items:center;min-height:44px}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:14px}
+  .footer-certs{gap:8px}
+
+  /* ---- forms ---- */
+  .contact-form{padding:20px}
+  .form-row{grid-template-columns:1fr}
+  .form-label{font-size:.78rem;margin-bottom:6px}
+  .form-input,input.form-input,select.form-input,textarea.form-input{
+    font-size:16px!important;min-height:48px;padding:12px 14px;width:100%;max-width:100%;
+    -webkit-appearance:none;appearance:none;
+  }
+  select.form-input{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235B7A9B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;
+  }
+  textarea.form-input{min-height:112px}
+  .form-input:focus{box-shadow:0 0 0 3px rgba(0,159,206,.22)}
+  .form-input:user-invalid{border-color:#DC2626;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
+
+  /* ---- price / scope tables -> stacked cards (no sideways scrolling) ---- */
+  .scope-table,.scope-table tbody,.scope-table tr,.scope-table td{display:block;width:100%}
+  .scope-table{border-collapse:separate;font-size:1rem}
+  .scope-table tr:first-child{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .scope-table tr{background:#fff!important;border:1px solid #E2E8F0;border-radius:10px;margin-bottom:12px;overflow:hidden}
+  .scope-table td{border:0;padding:10px 14px 0}
+  .scope-table td:last-child{padding-bottom:12px}
+  .scope-table td::before{content:attr(data-label);display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5B7A9B;margin-bottom:2px}
+  .scope-table td:first-child{background:#F7F9FC;padding-bottom:10px;margin-bottom:2px;font-weight:700;color:#0D3B66}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* ---- misc components that were cramped ---- */
+  .sla-bar{max-width:100%}
+  .trust-bar{padding-top:16px;padding-bottom:16px}
+  .toc,.meta-bar{padding-left:16px;padding-right:16px}
+  .hero-glow,.hero-glow2{width:360px;height:360px}
+  .pq-section::after{display:none}
+
+  /* performance: phones get a ~3x lighter hero photo (image is darkened to 45% anyway) */
+  .hero{--hero-bg-url:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1000&q=70&auto=format&fit=crop')}
+}
+
+/* ==========================================================================
+   <= 360px : small phones (320–360) — final squeeze
+   ========================================================================== */
+@media (max-width:360px){
+  .nav-inner{padding:0 12px}
+  .hero-content,.hero-inner,.trust-bar,.section,.pq-section,.awaab,.portals,.mr-band,
+  .disclaimer,.cta-band,.contact,footer,.page-hero,.page-section,.page-body,.pricing-page{
+    padding-left:16px;padding-right:16px;
+  }
+  section[style*="2rem"]{padding-left:16px!important;padding-right:16px!important}
+  .contact-form{padding:16px}
+  .btn-primary,.btn-ghost,.btn-cta-dark,.btn-mr,.btn-hero-main,.btn-hero-awaab,.btn-hero-survey{padding-left:14px;padding-right:14px}
+  .btn-mr{width:100%}
+}
+
+/* ==========================================================================
+   <= 340px : 320px class devices — long CTA labels must stay on one line
+   ========================================================================== */
+@media (max-width:340px){
+  .btn-primary,.btn-ghost,.btn-cta-dark,.btn-mr,.btn-hero-main,.btn-hero-awaab,.btn-hero-survey{font-size:clamp(.84rem,4.4vw,.95rem)}
+}
